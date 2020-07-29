@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+      "outDir": "./dist/",
+      "noImplicitAny": true,
+      "module": "CommonJS",
+      "target": "ES5",
+      "lib": ["ESNext", "dom"],
+      "moduleResolution": "node",
+      "jsx": "react",
+      "strict": true,
+      "esModuleInterop":true,
+      "allowJs": true,
+      "sourceMap":true,
+      "allowUmdGlobalAccess":true,
+      "allowSyntheticDefaultImports":true,
+      "noImplicitThis": true,
+      "declaration":true,
+      "declarationDir":"dist"
+    },
+    "include": ["src/**/*","config/**/*"],
+    "exclude": ["node_modules", "**/*.spec.ts"]
+}
