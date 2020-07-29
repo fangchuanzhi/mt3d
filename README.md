@@ -9,12 +9,12 @@ npm install
 ## 启动
 
 ```node
-yarn start
+npm start
 ```
 
 ## 打包
 
 ```node
-yarn run build
+npm run build
 ```
 
