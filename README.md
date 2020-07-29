@@ -1,4 +1,20 @@
-# Mapbox3DScene
+# MapboxThreeScene
 基于three.js开发的可视化库， 提升Mapbox GL JS 3d渲染能力
 
-开发中敬请期待。。。
+## 依赖
+
+```node
+npm install
+```
+## 启动
+
+```node
+yarn start
+```
+
+## 打包
+
+```node
+yarn run build
+```
+
