@@ -57,6 +57,7 @@
                             map:map,
                             gl:gl
                         });
+
                         scene.addObject({
                             type:"light",
                             position:mt3d.fromLngLat([104.07241822809993,30.66113424271103]),
@@ -96,6 +97,14 @@
                                 offset:[0,0,500]
                             }
                         });
+                        
+
+                        scene.pick.on("click",function(evt){
+                            if(evt.intersects.length > 0){
+                                alert("拾取到物体！")
+                            }
+                        })
+
                     },
                     render:function(){
                         scene.update()

@@ -57,6 +57,7 @@
                             map:map,
                             gl:gl
                         });
+
                         scene.addObject({
                             type:"light",
                             position:mt3d.fromLngLat([104.07241822809993,30.66113424271103]),
@@ -70,6 +71,7 @@
                                 target:mt3d.fromLngLat([104.07241822809993,30.66113424271103])
                             }
                         });
+
                         scene.addObject({
                             type:"box",
                             position:mt3d.fromLngLat([104.07241822809993,30.66113424271103]),
@@ -82,6 +84,20 @@
                                 offset:[0,0,500]
                             }
                         });
+
+                        scene.addObject({
+                            type:"box",
+                            position:mt3d.fromLngLat([104.09418779099548,30.657532990527258]),
+                            appearance:{
+                                light:true,
+                                color:"red",
+                                width:1000,
+                                height:1000,
+                                depth:1000,
+                                offset:[0,0,500]
+                            }
+                        });
+                    
                     },
                     render:function(){
                         scene.update()

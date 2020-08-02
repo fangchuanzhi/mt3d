@@ -67,7 +67,7 @@
                                 width:1000,
                                 height:1000,
                                 depth:1000,
-                                offset:[500,-500,1500],
+                                offset:[500,-500,500],
                                 target:mt3d.fromLngLat([104.07241822809993,30.66113424271103])
                             }
                         });
@@ -77,27 +77,23 @@
                             position:mt3d.fromLngLat([104.07241822809993,30.66113424271103]),
                             appearance:{
                                 light:true,
-                                color:"blue",
+                                color:"yellow",
                                 width:1000,
                                 height:1000,
-                                depth:1000,
-                                offset:[0,0,500]
+                                depth:2000,
+                                offset:[0,0,1000]
                             }
                         });
 
+                        
                         scene.addObject({
-                            type:"box",
-                            position:mt3d.fromLngLat([104.09418779099548,30.657532990527258]),
+                            type:"water",
+                            position:mt3d.fromLngLat([104.07241822809993,30.66113424271103]),
                             appearance:{
-                                light:true,
-                                color:"red",
-                                width:1000,
-                                height:1000,
-                                depth:1000,
-                                offset:[0,0,500]
+                                color:"#0af3ed",
+                                offset:[0,0,0]
                             }
                         });
-                        
                     },
                     render:function(){
                         scene.update()

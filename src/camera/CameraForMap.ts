@@ -210,7 +210,7 @@ export class CameraForMap extends THREE.Camera{
      * gl coord 转像素
      * @param vec2 
      */
-    unproject(vec2:Vector2){
-        return new Vector3(vec2.x,vec2.y,0).applyMatrix4(this.ipv);
+    unproject(vec3:Vector3){
+        return new Vector3().copy(vec3).applyMatrix4(this.ipv);
     }
 }

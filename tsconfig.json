@@ -6,7 +6,6 @@
       "target": "ES5",
       "lib": ["ESNext", "dom"],
       "moduleResolution": "node",
-      "jsx": "react",
       "strict": true,
       "esModuleInterop":true,
       "allowJs": true,
@@ -18,5 +17,5 @@
       "declarationDir":"dist"
     },
     "include": ["src/**/*","config/**/*"],
-    "exclude": ["node_modules", "**/*.spec.ts"]
+    "exclude": ["node_modules"]
 }

@@ -9,6 +9,7 @@ import { CameraForMap } from "./camera/CameraForMap";
 import {  Vector2} from "three";
 import Convert from "./convert";
 import {Map,Point,LngLat} from 'mapbox-gl'
+import { Pick } from './pick/Pick';
 
 
 export type mapProps = Map & {
@@ -46,6 +47,7 @@ export class Scene extends Convert {
     fog:Fog|null;
     _showFog:boolean = false;
     size = new Vector2();
+    pick:Pick;
     worldGroup = (function(){
         let group = new THREE.Group();
         group.matrixAutoUpdate = false;
@@ -61,17 +63,15 @@ export class Scene extends Convert {
             canvas:this.map.getCanvas(),
             context:this.gl,
             antialias:true,
-            alpha:true
+            alpha:true,
+        
         });
-
         //原始相机
         this.originCamera = new THREE.Camera();
         //地图相机
         this.cameraForMap =  new CameraForMap();
-
         //场景
         this.scene = new THREE.Scene();
-
         //前置场景
         this.sceneFront = new THREE.Scene();
         let background = new BackGround(this);
@@ -84,8 +84,14 @@ export class Scene extends Convert {
         this.scene.add(this.worldGroup);
 
         this.renderer.autoClear = false;
+        this.renderer.info.autoReset = false;
         this.renderer.shadowMap.enabled = true;
         this.fog = null;
+
+        /**
+         * 事件拾取
+         */
+        this.pick = new Pick(this);
 
         this.map.on("render",()=>{
             this.renderFront();
@@ -120,11 +126,12 @@ export class Scene extends Convert {
         if(this.showFog){
             if(!this.fog){
                 this.fog = new Fog(this);
+                this.sceneFront.add(this.fog.mesh as THREE.Mesh);
             }
-            this.sceneFront.add(this.fog.mesh as THREE.Mesh);
         }
         if(!this.showFog && this.fog){
             this.sceneFront.remove(this.fog.mesh as THREE.Mesh)
+            this.fog = null;
         }
     }
     /**
@@ -155,10 +162,20 @@ export class Scene extends Convert {
     renderFront(){
         this.gl.enable(this.gl.BLEND);
         this.gl.enable(this.gl.DEPTH_TEST);
-        this.gl.depthRange(0.0,1.0);
+        this.gl.depthMask(true);
+        this.gl.depthFunc(515)
+        //this.gl.depthRange(0.0,1.0);
         //this.renderer.state.reset();
+        this.gl.blendFuncSeparate(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA, this.gl.ONE, this.gl.ONE_MINUS_SRC_ALPHA);
+        this.gl.depthRange(0, 0.9991455078125);
+        // func: 515
+        // mask: true
+        // range: (2) [0, 0.9991455078125]
         this.renderFog();
-        this.renderer.render( this.sceneFront, this.originCamera );
+        if(this.fog){
+            this.renderer.render( this.fog.mesh, this.originCamera );
+        }
+        
     }
     /**
      * 更新渲染器的大小

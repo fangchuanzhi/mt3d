@@ -58,19 +58,40 @@
                             gl:gl
                         });
 
-                        /**
-                         *添加一个盒子
-                         */
+                        scene.addObject({
+                            type:"light",
+                            position:mt3d.fromLngLat([104.07241822809993,30.66113424271103]),
+                            appearance:{
+                                lightType:"directional",
+                                color:"#ffffff",
+                                width:1000,
+                                height:1000,
+                                depth:1000,
+                                offset:[500,-500,500],
+                                target:mt3d.fromLngLat([104.07241822809993,30.66113424271103])
+                            }
+                        });
 
                         scene.addObject({
                             type:"box",
                             position:mt3d.fromLngLat([104.07241822809993,30.66113424271103]),
                             appearance:{
-                                color:"blue",
+                                light:true,
+                                color:"yellow",
                                 width:1000,
                                 height:1000,
-                                depth:1000,
-                                offset:[0,0,500]
+                                depth:2000,
+                                offset:[0,0,1000]
+                            }
+                        });
+
+                        
+                        scene.addObject({
+                            type:"water",
+                            position:mt3d.fromLngLat([104.07241822809993,30.66113424271103]),
+                            appearance:{
+                                color:"#0af3ed",
+                                offset:[0,0,0]
                             }
                         });
                     },
