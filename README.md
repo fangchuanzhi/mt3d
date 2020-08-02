@@ -17,4 +17,5 @@ npm start
 ```node
 npm run build
 ```
-
+## 优势
+兼容最新的three,mapbox GL JS
