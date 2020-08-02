@@ -1,11 +1,10 @@
 import { Evented } from "mapbox-gl";
-import { ThreeScene } from "../scenes/ThreeScene";
-import { mapProps } from "../Mapbox3DScene";
+import { Scene, mapProps } from "../Scene";
 
 export class Pick extends Evented{
     map:mapProps;
     canvas:HTMLCanvasElement;
-    constructor(context:ThreeScene){
+    constructor(context:Scene){
         super();
         this.map = context.map;
         this.canvas =this.map.getCanvas(); 

@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import { ThreeScene } from './ThreeScene';
+import { Scene } from '../Scene';
 import { BaseObject } from '../objects/BaseObject';
 
 const vertexShaderSource = `
@@ -17,11 +17,12 @@ const fragmentShaderSource = `
  * 背景
  * 用于解决three在渲染的时候vao没有变化导致一个mesh无法渲染的问题
  */
-export class BackGround extends BaseObject {
-    context:ThreeScene;
-    constructor(context:ThreeScene){
-
-        super();
+export class BackGround {
+    context:Scene;
+    material:THREE.ShaderMaterial
+    geometry:THREE.BufferGeometry;
+    mesh:THREE.Mesh;
+    constructor(context:Scene){
 
         this.context = context;
 

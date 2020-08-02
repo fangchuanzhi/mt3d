@@ -1,12 +1,10 @@
 import path from 'path';
-import {CleanWebpackPlugin} from 'clean-webpack-plugin';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
 
 import * as webpack from 'webpack';
 
 export default {
     entry: {
-        city:path.resolve(__dirname,'../src/index.ts')
+        mt3d:path.resolve(__dirname,'../src/index.ts')
     },
     output:{
         filename:"[name].js",

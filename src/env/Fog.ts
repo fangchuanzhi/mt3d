@@ -1,11 +1,10 @@
 import * as THREE from 'three'
-import { ThreeScene } from './ThreeScene';
+import { Scene } from '../Scene';
 import { BaseObject } from '../objects/BaseObject';
-import { clamp } from '../utils/util';
 
 const vertexShaderSource = `
     void main(){
-        gl_Position = vec4(position.xy,0.9,1.0);
+        gl_Position = vec4(position.xy,0.0,1.0);
     }
 `;
 const fragmentShaderSource = `
@@ -37,11 +36,12 @@ const fragmentShaderSource = `
 /**
  * 雾化效果
  */
-export class Fog extends BaseObject {
-    context:ThreeScene;
-    constructor(context:ThreeScene){
-
-        super();
+export class Fog  {
+    context:Scene;
+    material:THREE.ShaderMaterial
+    geometry:THREE.BufferGeometry;
+    mesh:THREE.Mesh;
+    constructor(context:Scene){
 
         this.context = context;
 

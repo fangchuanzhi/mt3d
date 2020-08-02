@@ -10,7 +10,7 @@ export function defined(value:any,elsevalue:any){
     return typeof value !== "undefined" && value !== null ? value:elsevalue;
 }
 
-export function lngLatToRealMercatorCoordinate(coord:number[]){
+export function lngLatToMercator(coord:number[]){
     let mercatorCoordinate_normal = MercatorCoordinate.fromLngLat(coord as [number,number]);
     let mercatorCoordinate = [
         mercatorCoordinate_normal.x * WORLD_SIZE - WORLD_SIZE / 2,

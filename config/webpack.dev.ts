@@ -11,12 +11,12 @@ export default merge(common,{
     devServer:{
         contentBase: path.resolve(__dirname,'../dist'),
         compress: true,
-        host: "10.0.3.96",
+        host: "localhost",
         port: 9000,
         hot: true,
         //hotOnly:true,
         //overlay: true,
-        useLocalIp: true
+        useLocalIp: false
         // proxy: {
         //     '/socket/**': {
         //         target: 'wss://10.10.3.41:8443',
@@ -47,9 +47,24 @@ export default merge(common,{
             ]
         }),
         new HtmlWebpackPlugin({
-            title: 'city scene',
+            title: 'three3d scene',
             filename: "index.html",
-            template: path.resolve(__dirname,'../index.html')
+            template: path.resolve(__dirname,'../examples/index.html')
         }),
+        new HtmlWebpackPlugin({
+            title: 'three3d scene',
+            filename: "box.html",
+            template: path.resolve(__dirname,'../examples/box.html')
+        }),
+        new HtmlWebpackPlugin({
+            title: 'three3d scene',
+            filename: "light.html",
+            template: path.resolve(__dirname,'../examples/light.html')
+        }),
+        new HtmlWebpackPlugin({
+            title: 'three3d scene',
+            filename: "water.html",
+            template: path.resolve(__dirname,'../examples/water.html')
+        })
     ]
 })

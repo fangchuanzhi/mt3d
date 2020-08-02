@@ -1,7 +1,8 @@
 import { AmbientLight, Object3D , DirectionalLight,PointLight,SpotLight} from "three";
 import { Object3DOptions } from "./object3d";
 import { BaseObject } from "./BaseObject";
-import { lngLatToRealMercatorCoordinate } from "../utils/util";
+
+import { Scene } from "../Scene";
 
 const lightConstructors = {
     "directional":DirectionalLight,
@@ -12,9 +13,9 @@ const lightConstructors = {
 
 
 export class LightEffect extends BaseObject{
-    constructor(options:Object3DOptions){
+    constructor(options:Object3DOptions,context:Scene){
 
-        super();
+        super(options,context);
         
         let appearance = options.appearance;
         let color = appearance.color;
@@ -33,19 +34,18 @@ export class LightEffect extends BaseObject{
 
         let targetObject:Object3D | undefined;
         if(target){
-            let targetCoord = lngLatToRealMercatorCoordinate(target);
             targetObject = new Object3D();
-            targetObject.position.set(targetCoord[0],targetCoord[1],0);
+            targetObject.position.set(target[0],target[1],0);
         }
 
-        let coord = lngLatToRealMercatorCoordinate([x,y]);
-
         let light = new lightConstructors[type](color);
-        light.position.set(coord[0] + offsetX,coord[1] + offsetY, offsetZ);
+        light.position.set(x + offsetX,y + offsetY, offsetZ);
         light.matrixAutoUpdate = true;
         light.castShadow = castShadow || false;
         if(targetObject && light instanceof DirectionalLight){
+            
             light.target = targetObject;
+            this.context.worldGroup.add(targetObject);
         }
         this.mesh = light;
         

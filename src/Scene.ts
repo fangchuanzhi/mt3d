@@ -1,15 +1,34 @@
-import { mapProps } from "../Mapbox3DScene";
-import { Evented } from "mapbox-gl";
-import * as THREE from 'three'
-import { defined } from "../utils/util";
-import { Fog } from "./Fog";
-import { BackGround } from "./background";
-import { Object3DOptions } from "../objects/object3d";
-import * as objects from '../objects'
-import { CameraForMap } from "../camera/CameraForMap";
-import { DirectionalLight, SpotLight, Vector2} from "three";
 
-export interface ThreeSceneOptions {
+import * as THREE from 'three'
+import { defined } from "./utils/util";
+import { Fog } from "./env/Fog";
+import { BackGround } from "./env/background";
+import { Object3DOptions } from "./objects/object3d";
+import * as objects from './objects'
+import { CameraForMap } from "./camera/CameraForMap";
+import {  Vector2} from "three";
+import Convert from "./convert";
+import {Map,Point,LngLat} from 'mapbox-gl'
+
+
+export type mapProps = Map & {
+    transform:{
+        maxPitch:number,
+        _calcMatrices():void,
+        coveringTiles(options:any):any,
+        _pitch:number,
+        _fov:number,
+        angle:number,
+        width:number,
+        height:number,
+        centerOffset:Point,
+        point:Point,
+        scale:number,
+        center:LngLat
+    }
+}
+
+export interface SceneOptions {
     map:mapProps,
     gl:WebGLRenderingContext,
     showFog?:boolean
@@ -18,9 +37,7 @@ export interface ThreeSceneOptions {
 /**
  * three场景
  */
-export class ThreeScene extends Evented {
-    map:mapProps;
-    gl:WebGLRenderingContext;
+export class Scene extends Convert {
     renderer:THREE.WebGLRenderer;
     scene:THREE.Scene;
     sceneFront:THREE.Scene;
@@ -34,14 +51,12 @@ export class ThreeScene extends Evented {
         group.matrixAutoUpdate = false;
         return group
     })();
-    constructor(options:ThreeSceneOptions){
+    constructor(options:SceneOptions){
 
-        super();
-
-        this.map = options.map;
-        this.gl = options.gl;
+        super(options);
 
         this.showFog = defined(options.showFog,true);
+        
         this.renderer = new THREE.WebGLRenderer({
             canvas:this.map.getCanvas(),
             context:this.gl,
@@ -95,7 +110,7 @@ export class ThreeScene extends Evented {
      * @param entityOptions 
      */
     addObject(object3DOptions:Object3DOptions){
-        let object = new objects[object3DOptions.type](object3DOptions);
+        let object = new objects[object3DOptions.type](object3DOptions,this);
         this.worldGroup.add(object.mesh as THREE.Mesh);
     }
     /**
@@ -128,15 +143,11 @@ export class ThreeScene extends Evented {
      * 在renderList中顺序渲染
      */
     render(){
-        // let depthRange =  this.gl.getParameter(this.gl.DEPTH_RANGE);
         this.gl.enable(this.gl.BLEND);
         this.gl.blendFuncSeparate(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA, this.gl.ONE, this.gl.ONE_MINUS_SRC_ALPHA);
-        // this.gl.enable(this.gl.DEPTH_TEST);
-        // this.gl.depthRange(0.0, 1.0);
         this.renderer.state.reset();
         this.worldGroup.matrix.copy(this.cameraForMap.ObjectMatrixWorld);
         this.renderer.render( this.scene, this.cameraForMap );
-        //this.gl.depthRange(depthRange[0],depthRange[1]);
     }
     /**
      * 最后渲染
@@ -144,8 +155,8 @@ export class ThreeScene extends Evented {
     renderFront(){
         this.gl.enable(this.gl.BLEND);
         this.gl.enable(this.gl.DEPTH_TEST);
-        this.gl.depthRange(0.99, 1.0);
-        this.renderer.state.reset();
+        this.gl.depthRange(0.0,1.0);
+        //this.renderer.state.reset();
         this.renderFog();
         this.renderer.render( this.sceneFront, this.originCamera );
     }

@@ -1,7 +1,10 @@
 
-import Scene from "./Mapbox3DScene";
 import * as threeLib from 'three';
 
-export const Mapbox3DScene = Scene;
+import { lngLatToMercator } from "./utils/util";
+
+export {Scene} from "./Scene";
 
 export const THREE = threeLib;
+
+export const fromLngLat = lngLatToMercator;
